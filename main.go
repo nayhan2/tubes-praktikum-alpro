@@ -49,3 +49,20 @@ func hitungSkor(ans [5]int) int {
 	}
 	return total
 }
+
+// program func
+
+func tentukanKategori(skor int) string {
+	switch {
+	case skor >= 22:
+		return "Sangat Baik"
+	case skor >= 17:
+		return "Baik"
+	case skor >= 12:
+		return "Cukup"
+	case skor >= 7:
+		return "Perlu Perhatian"
+	default:
+		return "Butuh Bantuan Segera"
+	}
+}
