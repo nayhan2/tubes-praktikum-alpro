@@ -24,6 +24,7 @@ type SVRResult struct {
 	PrediksiSkorQ5 float64 `json:"prediksi_skor_q5"`
 	Status         string  `json:"status"`
 	DataPointsUsed int     `json:"data_points_used"`
+	MarginOfError  float64 `json:"margin_of_error"`
 	Error          string  `json:"error"`
 }
 
@@ -431,7 +432,7 @@ func tampilkanLaporan() {
 		fmt.Println("     ANALISIS PREDIKSI AI (MODEL SVR)       ")
 		fmt.Println("=============================================")
 		fmt.Printf("Model SVR dilatih dari %d data global sebulan terakhir.\n", hasil.DataPointsUsed)
-		fmt.Printf("Prediksi Dampak Aktivitas User     : %.2f (Skala 1-5)\n", hasil.PrediksiSkorQ5)
+		fmt.Printf("Prediksi Dampak Aktivitas User     : %.2f \u00b1 %.2f (Skala 1-5)\n", hasil.PrediksiSkorQ5, hasil.MarginOfError)
 		fmt.Printf("Jawaban Aktual (Realitas) User     : %d\n", asesmenTerbaru.Jawaban[4])
 		
 		selisih := hasil.PrediksiSkorQ5 - float64(asesmenTerbaru.Jawaban[4])
