@@ -168,8 +168,8 @@ func ubahData() {
 	fmt.Print("Masukkan ID Assessment yang ingin diubah: ")
 	fmt.Scan(&id)
 
-	for i, v := range dataAssesmen {
-		if v.ID == id {
+	for i := 0; i < len(dataAssesmen); i++ {
+		if dataAssesmen[i].ID == id {
 			idxUbah = i
 			ditemukan = true
 			break
@@ -208,8 +208,8 @@ func hapusData() {
 	fmt.Print("Masukkan ID Assessment yang ingin dihapus: ")
 	fmt.Scan(&id)
 
-	for i, v := range dataAssesmen {
-		if v.ID == id {
+	for i := 0; i < len(dataAssesmen); i++ {
+		if dataAssesmen[i].ID == id {
 			dataAssesmen = append(dataAssesmen[:i], dataAssesmen[i+1:]...)
 
 			saveFile()
@@ -250,9 +250,9 @@ func menuCari() {
 
 func sequentialSearch(userID int) []Assesment {
 	var hasil []Assesment
-	for _, v := range dataAssesmen {
-		if v.UserID == userID {
-			hasil = append(hasil, v)
+	for i := 0; i < len(dataAssesmen); i++ {
+		if dataAssesmen[i].UserID == userID {
+			hasil = append(hasil, dataAssesmen[i])
 		}
 	}
 	return hasil
@@ -357,15 +357,15 @@ func tampilkanLaporan() {
 	totalSkor := 0
 	batasWaktu := time.Now().AddDate(0, 0, -30)
 
-	for _, v := range historiSemua {
-		tglData, err := time.Parse("2006-01-02", v.Tanggal)
+	for i := 0; i < len(historiSemua); i++{
+		tglData, err := time.Parse("2006-01-02", historiSemua[i].Tanggal)
 		if err != nil {
-			historiUser = append(historiUser, v)
+			historiUser = append(historiUser, historiSemua[i])
 			continue
 		}
 
 		if tglData.After(batasWaktu) || tglData.Equal(batasWaktu) {
-			historiUser = append(historiUser, v)
+			historiUser = append(historiUser, historiSemua[i])
 		}
 	}
 
@@ -389,8 +389,8 @@ func tampilkanLaporan() {
 		fmt.Printf("  Rekomendasi: %s\n", v.Rekomendasi)
 	}
 
-	for _, v := range historiUser {
-		totalSkor += v.SkorTotal
+	for i := 0; i < len(historiUser); i++ {
+		totalSkor += historiUser[i].SkorTotal
 	}
 	rataRata := float64(totalSkor) / float64(len(historiUser))
 
@@ -484,9 +484,9 @@ func loadFile() {
 		return
 	}
 
-	for _, v := range dataAssesmen {
-		if v.ID >= idCounter {
-			idCounter = v.ID + 1
+	for i := 0; i < len(dataAssesmen); i++ {
+		if dataAssesmen[i].ID >= idCounter {
+			idCounter = dataAssesmen[i].ID + 1
 		}
 	}
 }
