@@ -357,7 +357,7 @@ func tampilkanLaporan() {
 	totalSkor := 0
 	batasWaktu := time.Now().AddDate(0, 0, -30)
 
-	for i := 0; i < len(historiSemua); i++{
+	for i := 0; i < len(historiSemua); i++ {
 		tglData, err := time.Parse("2006-01-02", historiSemua[i].Tanggal)
 		if err != nil {
 			historiUser = append(historiUser, historiSemua[i])
@@ -376,14 +376,12 @@ func tampilkanLaporan() {
 
 	cetakHeader(fmt.Sprintf("LAPORAN AKTIVITAS 1 BULAN TERAKHIR (USER ID: %d)", userID))
 
-
 	batas := len(historiUser)
 	if batas > 5 {
 		batas = 5
 	}
 
-	fmt.Printf("Menampilkan %d riwayat terakhir pada bulan ini:\n", batas)
-	for i := len(historiUser) - 1; i >= len(historiUser)-batas; i-- {
+	for i := 0; i < batas; i++ {
 		v := historiUser[i]
 		fmt.Printf("- Tgl: %s | Skor: %d | Kategori: %s\n", v.Tanggal, v.SkorTotal, v.Kategori)
 		fmt.Printf("  Rekomendasi: %s\n", v.Rekomendasi)
@@ -398,7 +396,6 @@ func tampilkanLaporan() {
 	fmt.Printf("Total Assessment (1 Bulan Terakhir): %d kali\n", len(historiUser))
 	fmt.Printf("Rata-rata Skor Sebulan Terakhir    : %.2f\n", rataRata)
 	cetakGaris("-", 60)
-
 
 	asesmenTerbaru := historiUser[len(historiUser)-1]
 	empatJawaban := asesmenTerbaru.Jawaban[0:4]
@@ -434,12 +431,12 @@ func tampilkanLaporan() {
 		fmt.Printf("Model SVR dilatih dari %d data global sebulan terakhir.\n", hasil.DataPointsUsed)
 		fmt.Printf("Prediksi Dampak Aktivitas User     : %.2f \u00b1 %.2f (Skala 1-5)\n", hasil.PrediksiSkorQ5, hasil.MarginOfError)
 		fmt.Printf("Jawaban Aktual (Realitas) User     : %d\n", asesmenTerbaru.Jawaban[4])
-		
+
 		selisih := hasil.PrediksiSkorQ5 - float64(asesmenTerbaru.Jawaban[4])
 		if selisih < 0 {
 			selisih = -selisih
 		}
-		
+
 		if selisih <= 0.5 {
 			fmt.Println("Insight: Tingkat produktivitas user ini sangat konsisten dengan tren data sebulan terakhir.")
 		} else if hasil.PrediksiSkorQ5 > float64(asesmenTerbaru.Jawaban[4]) {
